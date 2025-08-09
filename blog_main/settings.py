@@ -71,22 +71,22 @@ WSGI_APPLICATION = 'blog_main.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.getenv("DATABASE_URL"):
+    DATABASES = {
+        "default": dj_database_url.parse(
+            os.getenv(
+                "DATABASE_URL",
+                "postgresql://website_theory1_user:88K5QgJLMLNLG2Wgwm6SNcTXaGONydWI@dpg-d2bf4695pdvs73cmtka0-a.oregon-postgres.render.com/website_theory1"
+            )
+        )
     }
-}
-
-
-DATABASES = {
-    "default": dj_database_url.parse(
-        "postgresql://website_theory1_user:88K5QgJLMLNLG2Wgwm6SNcTXaGONydWI@dpg-d2bf4695pdvs73cmtka0-a.oregon-postgres.render.com/website_theory1"
-    )
-}
-
-                      }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
